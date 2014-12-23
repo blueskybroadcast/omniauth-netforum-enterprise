@@ -1,3 +1,5 @@
+require 'omniauth-oauth2'
+
 module OmniAuth
   module Strategies
     class NetforumEnterprise < OmniAuth::Strategies::OAuth2
