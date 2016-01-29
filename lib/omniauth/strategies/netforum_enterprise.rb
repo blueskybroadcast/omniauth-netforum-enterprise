@@ -6,14 +6,9 @@ module OmniAuth
 
       option :name, 'netforum_enterprise'
 
-      option :authorize_params, {
-        WebCode: 'LoginRequired',
-        expires: 'yes'
-      }
-
       option :client_options, {
         site: 'MUST BE SET',
-        authorize_url: '/eWeb/DynamicPage.aspx',
+        authorize_url: '/eWeb/DynamicPage.aspx?webcode=login',
         wsdl: '/xweb/secure/netForumXML.asmx?WSDL',
         username: 'MUST BE SET',
         password: 'MUST BE SET'
@@ -27,7 +22,7 @@ module OmniAuth
 
       def request_phase
         site = session['omniauth.params']['eventcode']
-        redirect client.auth_code.authorize_url({URL_success: callback_url + "?ssoToken={token}", site: site}.merge(authorize_params))
+        redirect authorize_url + "&Site=#{site}&URL_success=" + callback_url + "?ssoToken={token}"
       end
 
       def callback_phase
@@ -85,6 +80,12 @@ module OmniAuth
         else
           {}
         end
+      end
+
+      private
+
+      def authorize_url
+        options.client_options.site + options.client_options.authorize_url
       end
     end
   end
