@@ -6,8 +6,8 @@ require 'omniauth-netforum-enterprise/version'
 Gem::Specification.new do |spec|
   spec.name          = "omniauth-netforum-enterprise"
   spec.version       = Omniauth::NetforumEnterprise::VERSION
-  spec.authors       = ["Marc Villanueva"]
-  spec.email         = ["mvillanueva@blueskybroadcast.com"]
+  spec.authors       = ["Marc Villanueva", "Timm Liu"]
+  spec.email         = ["mvillanueva@blueskybroadcast.com", "tliu@blueskybroadcast.com"]
   spec.description   = %q{Write a gem description}
   spec.summary       = %q{Write a gem summary}
   spec.homepage      = ""
