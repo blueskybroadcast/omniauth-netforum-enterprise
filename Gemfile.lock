@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/blueskybroadcast/netforum_enterprise.git
-  revision: b528ef6c52d4ac6c86472abc90862ddd5590c1ee
+  revision: da837f955a6f6f32c2b68956b9b0839ede46339f
   specs:
-    netforum_enterprise (1.0.0)
+    netforum_enterprise (2.0.0)
       hashie
       httpclient (~> 2.7.1)
       savon (~> 2.11.1)
