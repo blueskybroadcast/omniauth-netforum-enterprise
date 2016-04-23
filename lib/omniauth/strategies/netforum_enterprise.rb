@@ -56,6 +56,8 @@ module OmniAuth
       end
 
       def get_slug(event_code)
+        return '' unless defined? Account
+
         Account.find_by_event_code(event_code).slug
       end
 
