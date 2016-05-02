@@ -67,18 +67,19 @@ module OmniAuth
         end
         customer = {}
         ::NetforumEnterprise.authenticate(username, password) do |auth|
-          customer_key = auth.web_validate access_token access_token
-          customer = auth.get_individual_information customer_key
+          customer_key = auth.web_validate access_token
+          customer_info = auth.get_individual_information customer_key
+          customer =
+          {
+            id: customer_info[:cst_id],
+            first_name: customer_info[:ind_first_name],
+            last_name: customer_info[:ind_last_name],
+            email: customer_info[:eml_address],
+            cst_key: customer_info[:ind_cst_key],
+            member_flag: customer_info[:cst_member_flag]
+          }
         end
-        customer = service.get_individual_information(customer_key)
-        {
-          id: customer[:cst_id],
-          first_name: customer[:ind_first_name],
-          last_name: customer[:ind_last_name],
-          email: customer[:eml_address],
-          cst_key: customer[:ind_cst_key],
-          member_flag: customer[:cst_member_flag]
-        }
+        customer
       end
 
       private
