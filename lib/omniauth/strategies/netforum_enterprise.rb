@@ -66,7 +66,7 @@ module OmniAuth
           end
         end
         customer = {}
-        NetforumEnterprise.authenticate(username, password) do |auth|
+        ::NetforumEnterprise.authenticate(username, password) do |auth|
           customer_key = auth.web_validate access_token access_token
           customer = auth.get_individual_information customer_key
         end
