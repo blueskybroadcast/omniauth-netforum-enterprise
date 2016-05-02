@@ -60,32 +60,43 @@ module OmniAuth
       end
 
       def get_user_info(access_token)
-        wsdl = options.client_options.site + options.client_options.wsdl
-
-        ::NetforumEnterprise.configure do
-          wsdl wsdl
+        if ::NetforumEnterprise.configuration.wsdl.nil?
+          ::NetforumEnterprise.configure do |config|
+            config.wsdl = wsdl
+          end
         end
-
-        if service = ::NetforumEnterprise.authenticate(options.client_options.username, options.client_options.password)
-          customer_key = service.web_validate(access_token)
-          customer = service.get_individual_information(customer_key)
-          {
-            id: customer[:cst_id],
-            first_name: customer[:ind_first_name],
-            last_name: customer[:ind_last_name],
-            email: customer[:eml_address],
-            cst_key: customer[:ind_cst_key],
-            member_flag: customer[:cst_member_flag]
-          }
-        else
-          {}
+        customer = {}
+        NetforumEnterprise.authenticate(username, password) do |auth|
+          customer_key = auth.web_validate access_token access_token
+          customer = auth.get_individual_information customer_key
         end
+        customer = service.get_individual_information(customer_key)
+        {
+          id: customer[:cst_id],
+          first_name: customer[:ind_first_name],
+          last_name: customer[:ind_last_name],
+          email: customer[:eml_address],
+          cst_key: customer[:ind_cst_key],
+          member_flag: customer[:cst_member_flag]
+        }
       end
 
       private
 
       def authorize_url
         options.client_options.site + options.client_options.authorize_url
+      end
+
+      def password
+        options.client_options.password
+      end
+
+      def username
+        options.client_options.username
+      end
+
+      def wsdl
+        options.client_options.site + options.client_options.wsdl
       end
     end
   end
