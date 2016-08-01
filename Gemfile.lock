@@ -1,8 +1,10 @@
 GIT
   remote: git://github.com/blueskybroadcast/netforum_enterprise.git
-  revision: da837f955a6f6f32c2b68956b9b0839ede46339f
+  revision: f3080a1e89e182e11d0c4541e5c6111e34258244
+  ref: f3080a1e89e182e11d0c4541e5c6111e34258244
+  branch: master
   specs:
-    netforum_enterprise (2.0.0)
+    netforum_enterprise (2.0.2)
       hashie
       httpclient (~> 2.7.1)
       savon (~> 2.11.1)
@@ -10,7 +12,7 @@ GIT
 PATH
   remote: .
   specs:
-    omniauth-netforum-enterprise (0.2.0)
+    omniauth-netforum-enterprise (0.2.2)
       netforum_enterprise
       omniauth (~> 1.0)
       omniauth-oauth2 (~> 1.0)
@@ -30,21 +32,23 @@ GEM
       multipart-post (>= 1.2, < 3)
     gyoku (1.3.1)
       builder (>= 2.1.2)
-    hashie (3.4.3)
-    httpclient (2.7.1)
-    httpi (2.4.1)
+    hashie (3.4.4)
+    httpclient (2.7.2)
+    httpi (2.4.2)
       rack
-    jwt (1.5.1)
-    mini_portile2 (2.0.0)
-    multi_json (1.11.2)
+      socksify
+    jwt (1.5.4)
+    mini_portile2 (2.1.0)
+    multi_json (1.12.1)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
-    nokogiri (1.6.7.2)
-      mini_portile2 (~> 2.0.0.rc2)
+    nokogiri (1.6.8)
+      mini_portile2 (~> 2.1.0)
+      pkg-config (~> 1.1.7)
     nori (2.6.0)
-    oauth2 (1.1.0)
+    oauth2 (1.2.0)
       faraday (>= 0.8, < 0.10)
-      jwt (~> 1.0, < 1.5.2)
+      jwt (~> 1.0)
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
@@ -54,7 +58,8 @@ GEM
     omniauth-oauth2 (1.4.0)
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
-    rack (1.6.4)
+    pkg-config (1.1.7)
+    rack (2.0.1)
     rake (10.3.2)
     rspec (3.0.0)
       rspec-core (~> 3.0.0)
@@ -77,6 +82,7 @@ GEM
       nokogiri (>= 1.4.0)
       nori (~> 2.4)
       wasabi (~> 3.4)
+    socksify (1.7.0)
     wasabi (3.5.0)
       httpi (~> 2.0)
       nokogiri (>= 1.4.2)
