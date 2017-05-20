@@ -77,13 +77,8 @@ module OmniAuth
       end
 
       def get_user_info(access_token)
-        if ::NetforumEnterprise.configuration.wsdl.nil?
-          ::NetforumEnterprise.configure do |config|
-            config.wsdl = wsdl
-          end
-        end
         customer = {}
-        ::NetforumEnterprise.authenticate(username, password) do |auth|
+        client.authenticate(username, password) do |auth|
           customer_key = auth.web_validate access_token
           customer_info = auth.get_individual_information customer_key
           customer_committee_codes = get_user_committees(auth, customer_key)
@@ -114,6 +109,10 @@ module OmniAuth
         else
           options.client_options.site + options.client_options.authorize_url
         end
+      end
+
+      def client
+        @client ||= ::NetforumEnterprise.configure { |config| config.wsdl = wsdl }
       end
 
       def password
