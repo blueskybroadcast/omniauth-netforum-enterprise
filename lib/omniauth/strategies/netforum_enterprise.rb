@@ -10,6 +10,7 @@ module OmniAuth
         site: 'MUST BE SET',
         return_to_slug: nil,
         alternative_site: nil,
+        custom_api_endpoint: nil,
         authorize_url: '/eWeb/DynamicPage.aspx?WebCode=LoginRequired',
         wsdl: '/xweb/secure/netForumXML.asmx?WSDL',
         username: 'MUST BE SET',
@@ -124,7 +125,8 @@ module OmniAuth
       end
 
       def wsdl
-        options.client_options.site + options.client_options.wsdl
+        options.client_options.custom_api_endpoint.presence ||
+          (options.client_options.site + options.client_options.wsdl)
       end
     end
   end
