@@ -22,9 +22,7 @@ module OmniAuth
 
       uid { raw_info[:id] }
 
-      info do
-        raw_info
-      end
+      info { raw_info }
 
       def request_phase
         site = session['omniauth.params']['eventcode']
@@ -80,9 +78,11 @@ module OmniAuth
       end
 
       def get_slug(params)
-        if params['Site']
-          Provider.find_by_event_code(params['Site'])&.account.slug
-        elsif params['origin']
+        slug_by_event_code = params['Site'] && Provider.find_by('LOWER(event_code) = ?', params['Site'].downcase)&.account&.slug
+
+        return slug_by_event_code if slug_by_event_code
+
+        if params['origin']
           params['origin'].gsub(/\//, '')
         else
           options.client_options.return_to_slug
