@@ -100,13 +100,14 @@ module OmniAuth
           customer_info = auth.get_individual_information customer_key
           create_request_and_response_logs('Get Individual Information', auth)
 
-          customer_committee_codes = if options.client_options.use_committee_group_sync
-                                       committees = auth.get_customer_committees customer_key
-                                       create_request_and_response_logs('Get Customer Committees', auth)
-                                       committees
-                                     else
-                                       []
-                                     end
+          customer_committee_codes =
+            if options.client_options.use_committee_group_sync
+              committees = auth.get_customer_committees customer_key
+              create_request_and_response_logs('Get Customer Committees', auth)
+              committees
+            else
+              []
+            end
 
           customer = {
             id: customer_info[:cst_id],
@@ -115,6 +116,7 @@ module OmniAuth
             email: customer_info[:eml_address],
             cst_key: customer_info[:ind_cst_key],
             member_flag: customer_info[:cst_member_flag],
+            vst_member_flag: customer_info[:vst_member_flag],
             committee_codes: customer_committee_codes.map(&:cmt_code)
           }
         end
