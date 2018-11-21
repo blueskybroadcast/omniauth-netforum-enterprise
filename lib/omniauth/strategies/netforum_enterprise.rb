@@ -17,7 +17,8 @@ module OmniAuth
         wsdl: '/xweb/secure/netForumXML.asmx?WSDL',
         username: 'MUST BE SET',
         password: 'MUST BE SET',
-        use_committee_group_sync: false
+        use_committee_group_sync: false,
+        sync_member_type: false
       }
 
       uid { raw_info[:id] }
@@ -109,6 +110,15 @@ module OmniAuth
               []
             end
 
+          customer_member_type_codes =
+            if options.client_options.sync_member_type
+              codes = auth.get_member_type_codes customer_key
+              create_request_and_response_logs('Get Member Type Codes', auth)
+              codes
+            else
+              []
+            end
+
           customer = {
             id: customer_info[:cst_id],
             first_name: customer_info[:ind_first_name],
@@ -117,7 +127,8 @@ module OmniAuth
             cst_key: customer_info[:ind_cst_key],
             member_flag: customer_info[:cst_member_flag],
             vst_member_flag: customer_info[:vst_member_flag],
-            committee_codes: customer_committee_codes.map(&:cmt_code)
+            committee_codes: customer_committee_codes.map(&:cmt_code),
+            member_type_codes: actual_member_type_codes(customer_member_type_codes)
           }
         end
 
@@ -138,6 +149,15 @@ module OmniAuth
       end
 
       private
+
+      def actual_member_type_codes(codes)
+        codes.map { |code| code.mbr_type if code_unexpired?(code) }.compact
+      end
+
+      def code_unexpired?(code)
+        return true if code.expire.casecmp('null').zero? || code.expire.strip.blank?
+        DateTime.strptime(code.expire, '%m/%d/%Y %H:%M:%S %p').future?
+      end
 
       def authorize_url
         if options.client_options.alternative_site.present?
